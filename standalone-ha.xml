@@ -396,7 +396,7 @@
 
                     <protocol type="JDBC_PING">
                         <property
-                                name="connection_driver">com.mysql.Driver</property>
+                                name="connection_driver">com.mysql.jdbc.Driver</property>
                         <property
                                 name="connection_url">jdbc:mysql://${env.MYSQL_PORT_3306_TCP_ADDR}:${env.MYSQL_PORT_3306_TCP_PORT}/${env.MYSQL_DATABASE:keycloak}</property>
                         <property
