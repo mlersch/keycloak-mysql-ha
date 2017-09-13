@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sleep 5
 function join_by { local IFS="$1"; shift; echo "$*"; }
 ARRAY=()
 for INSTANCE in $KEYCLOAK_NODE_IP
