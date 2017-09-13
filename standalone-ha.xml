@@ -404,10 +404,10 @@
                         <property
                                 name="connection_password">${env.MYSQL_PASSWORD:password}</property>
                         <property name="initialize_sql">
-                            CREATE TABLE IF NOT EXISTS jgroupsping (
+                            CREATE TABLE IF NOT EXISTS JGROUPSPING (
                             own_addr VARCHAR(200) NOT NULL,
                             cluster_name VARCHAR(200) NOT NULL,
-                            ping_data BYTEA DEFAULT NULL,
+                            ping_data BLOB DEFAULT NULL,
                             PRIMARY KEY (own_addr, cluster_name)
                             )
                         </property>
