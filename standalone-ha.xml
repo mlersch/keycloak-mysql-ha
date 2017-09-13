@@ -368,18 +368,58 @@
                     <protocol type="MFC"/>
                     <protocol type="FRAG2"/>
                 </stack>
+                <!--<stack name="tcp">-->
+                    <!--<transport type="TCP" socket-binding="jgroups-tcp"/>-->
+                    <!--&lt;!&ndash;<socket-protocol type="MPING" socket-binding="jgroups-mping"/>&ndash;&gt;-->
+                    <!--<protocol type="TCPPING">-->
+                        <!--<property name="initial_hosts">${env.KEYCLOAK_NODE_IPS}</property>-->
+                        <!--<property name="num_initial_members">${env.KEYCLOAK_INITIAL_MEMBERS}</property>-->
+                        <!--<property name="port_range">0</property>-->
+                        <!--<property name="timeout">2000</property>-->
+                    <!--</protocol>-->
+                    <!--<protocol type="MERGE3"/>-->
+                    <!--<protocol type="FD_SOCK"/>-->
+                    <!--<protocol type="FD_ALL"/>-->
+                    <!--<protocol type="VERIFY_SUSPECT"/>-->
+                    <!--<protocol type="pbcast.NAKACK2"/>-->
+                    <!--<protocol type="UNICAST3"/>-->
+                    <!--<protocol type="pbcast.STABLE"/>-->
+                    <!--<protocol type="pbcast.GMS"/>-->
+                    <!--<protocol type="MFC"/>-->
+                    <!--<protocol type="FRAG2"/>-->
+                <!--</stack>-->
                 <stack name="tcp">
-                    <transport type="TCP" socket-binding="jgroups-tcp"/>
-                    <!--<socket-protocol type="MPING" socket-binding="jgroups-mping"/>-->
-                    <protocol type="TCPPING">
-                        <property name="initial_hosts">${env.KEYCLOAK_NODE_IPS}</property>
-                        <property name="num_initial_members">${env.KEYCLOAK_INITIAL_MEMBERS}</property>
-                        <property name="port_range">0</property>
-                        <property name="timeout">2000</property>
+                    <transport type="TCP" socket-binding="jgroups-tcp">
+                        <property
+                                name="external_addr">${env.HOSTIP}</property>
+                    </transport>
+
+                    <protocol type="JDBC_PING">
+                        <property
+                                name="connection_driver">com.mysql.Driver</property>
+                        <property
+                                name="connection_url">jdbc:mysql://${env.MYSQL_PORT_3306_TCP_ADDR}:${env.MYSQL_PORT_3306_TCP_PORT}/${env.MYSQL_DATABASE:keycloak}</property>
+                        <property
+                                name="connection_username">${env.MYSQL_USERNAME:keycloak}</property>
+                        <property
+                                name="connection_password">${env.MYSQL_PASSWORD:password}</property>
+                        <property name="initialize_sql">
+                            CREATE TABLE IF NOT EXISTS jgroupsping (
+                            own_addr VARCHAR(200) NOT NULL,
+                            cluster_name VARCHAR(200) NOT NULL,
+                            ping_data BYTEA DEFAULT NULL,
+                            PRIMARY KEY (own_addr, cluster_name)
+                            )
+                        </property>
                     </protocol>
+
                     <protocol type="MERGE3"/>
-                    <protocol type="FD_SOCK"/>
-                    <protocol type="FD_ALL"/>
+                    <protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd">
+                        <property
+                                name="external_addr">${env.HOSTIP}</property>
+                    </protocol>
+
+                    <protocol type="FD"/>
                     <protocol type="VERIFY_SUSPECT"/>
                     <protocol type="pbcast.NAKACK2"/>
                     <protocol type="UNICAST3"/>
@@ -686,6 +726,9 @@
             <inet-address value="${jboss.bind.address:127.0.0.1}"/>
         </interface>
         <interface name="private">
+            <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
+        </interface>
+        <interface name="localip">
             <inet-address value="${env.HOSTIP}"/>
         </interface>
     </interfaces>
@@ -701,7 +744,8 @@
         <socket-binding name="jgroups-mping" interface="private" port="0"
                         multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                         multicast-port="45700"/>
-        <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
+        <socket-binding name="jgroups-tcp" interface="localip" port="7600"/>
+        <socket-binding name="jgroups-tcp-fd" interface="localip" port="57600"/>
         <socket-binding name="jgroups-udp" interface="private" port="55200"
                         multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                         multicast-port="45688"/>
