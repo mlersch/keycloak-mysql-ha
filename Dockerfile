@@ -10,6 +10,7 @@ FROM jboss/keycloak-mysql:latest
 
 RUN rm keycloak/standalone/configuration/standalone.xml
 COPY standalone-ha.xml keycloak/standalone/configuration/standalone-ha.xml
+COPY docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh
 
 
 
