@@ -5,8 +5,8 @@
 #ADD module.xml /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/
 
 
-#FROM jboss/keycloak-mysql:3.2.1.Final@sha256:8360d917402dcd2d69523ffb2d6fec11ee732fd932e214e685024d0ad68c4f19
-FROM jboss/keycloak-mysql:latest
+FROM jboss/keycloak-mysql:3.2.1.Final
+#FROM jboss/keycloak-mysql:latest
 
 USER root
 RUN yum install -y telnet && yum clean all
