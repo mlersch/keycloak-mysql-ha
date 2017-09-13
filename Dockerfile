@@ -9,7 +9,7 @@
 FROM jboss/keycloak-mysql:latest
 
 RUN rm keycloak/standalone/configuration/standalone.xml
-ADD standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
+COPY standalone-ha.xml keycloak/standalone/configuration/standalone-ha.xml
 
 
 
