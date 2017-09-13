@@ -6,7 +6,7 @@ ARRAY=()
 for INSTANCE in $KEYCLOAK_NODE_IP
 do
         IP=$(curl -sb -H "Accept: application/json" "http://rancher-metadata/latest/containers/$INSTANCE/primary_ip")
-        ARRAY+=($IP)
+        ARRAY+=("${IP}[7600]")
 done
 export KEYCLOAK_NODE_IPS=$(join_by ',' ${ARRAY[@]})
 
