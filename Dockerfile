@@ -1,5 +1,8 @@
 FROM jboss/keycloak-mysql:3.3.0.CR2
 
+USER root
+RUN yum install -y telnet && yum clean all
+
 USER jboss
 
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
