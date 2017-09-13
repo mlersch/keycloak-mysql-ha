@@ -8,12 +8,14 @@
 #FROM jboss/keycloak-mysql:3.2.1.Final@sha256:8360d917402dcd2d69523ffb2d6fec11ee732fd932e214e685024d0ad68c4f19
 FROM jboss/keycloak-mysql:latest
 
+USER jboss
+
 RUN rm keycloak/standalone/configuration/standalone.xml
 COPY standalone-ha.xml keycloak/standalone/configuration/standalone-ha.xml
 COPY docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh
 
 
-
+ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 CMD ["-b", "0.0.0.0", "--server-config", "standalone-ha.xml"]
 
 #ADD xsl-transform.sh /usr/local/bin/xsl-transform
