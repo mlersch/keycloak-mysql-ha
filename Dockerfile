@@ -1,8 +1,7 @@
-FROM jboss/keycloak-mysql:3.1.0.Final
+FROM jboss/keycloak-mysql:3.3.0.CR2
 
 USER jboss
 
-RUN rm /opt/jboss/keycloak/standalone/configuration/standalone.xml
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
 COPY docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh
 
