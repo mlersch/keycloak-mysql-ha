@@ -367,10 +367,15 @@
                 </stack>
                 <stack name="tcp">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
-                    <socket-protocol type="MPING" socket-binding="jgroups-mping"/>
+                    <protocol type="TCPPING">
+                        <property name="initial_hosts">${env.KEYCLOAK_NODE_IPS}</property>
+                        <property name="num_initial_members">${env.KEYCLOAK_INITIAL_MEMBERS}</property>
+                        <property name="port_range">1</property>
+                        <property name="timeout">2000</property>
+                    </protocol>
                     <protocol type="MERGE3"/>
-                    <protocol type="FD_SOCK"/>
-                    <protocol type="FD_ALL"/>
+                    <protocol socket-binding="jgroups-tcp-fd" type="FD_SOCK"/>
+                    <protocol type="FD"/>
                     <protocol type="VERIFY_SUSPECT"/>
                     <protocol type="pbcast.NAKACK2"/>
                     <protocol type="UNICAST3"/>
@@ -378,6 +383,8 @@
                     <protocol type="pbcast.GMS"/>
                     <protocol type="MFC"/>
                     <protocol type="FRAG2"/>
+                    <protocol type="RSVP"/>
+
                 </stack>
             </stacks>
         </subsystem>
@@ -679,6 +686,9 @@
         <interface name="private">
             <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
         </interface>
+        <interface name="localip">
+            <inet-address value="${jboss.bind.address.all:${env.HOSTNAME}}"/>
+        </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public"
                           port-offset="${jboss.socket.binding.port-offset:0}">
@@ -692,7 +702,7 @@
         <socket-binding name="jgroups-mping" interface="private" port="0"
                         multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                         multicast-port="45700"/>
-        <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
+        <socket-binding name="jgroups-tcp" interface="localip" port="7600"/>
         <socket-binding name="jgroups-udp" interface="private" port="55200"
                         multicast-address="${jboss.default.multicast.address:230.0.0.4}"
                         multicast-port="45688"/>
