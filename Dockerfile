@@ -1,4 +1,4 @@
-FROM jboss/keycloak-mysql:3.2.1.Final
+FROM jboss/keycloak-mysql:3.1.0.Final
 
 USER jboss
 
