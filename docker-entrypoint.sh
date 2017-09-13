@@ -8,7 +8,7 @@ do
         IP=$(curl -sb -H "Accept: application/json" "http://rancher-metadata/latest/containers/$INSTANCE/primary_ip")
         ARRAY+=($IP)
 done
-export KEYCLOAK_NODE_IP=$(join_by ',' ${ARRAY[@]})
+export KEYCLOAK_NODE_IPS=$(join_by ',' ${ARRAY[@]})
 
 
 if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
