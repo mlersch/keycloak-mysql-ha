@@ -687,7 +687,7 @@
             <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
         </interface>
         <interface name="localip">
-            <inet-address value="${jboss.bind.address.all:${env.HOSTNAME}}"/>
+            <inet-address value="${jboss.bind.address.all:${env.HOSTIP}}"/>
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public"

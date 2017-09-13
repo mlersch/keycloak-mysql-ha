@@ -10,6 +10,8 @@ do
 done
 export KEYCLOAK_NODE_IPS=$(join_by ',' ${ARRAY[@]})
 
+export HOSTIP=$(curl -sb -H "Accept: application/json" "http://rancher-metadata/latest/containers/$HOSTNAME/primary_ip")
+
 
 if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
     keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
