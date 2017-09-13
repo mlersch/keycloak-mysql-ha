@@ -300,28 +300,30 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jgroups:4.0" default-stack="tcpping">
-            <stack name="tcpping">
-                <transport type="TCP" socket-binding="jgroups-tcp"/>
-                <protocol type="TCPPING">
-                    <property name="initial_hosts">${env.KEYCLOAK_NODE_IPS}</property>
-                    <property name="port_range">${env.KEYCLOAK_INITIAL_MEMBERS}</property>
-                    <property name="timeout">3000</property>
-                    <property name="num_initial_members">2</property>
-                </protocol>
-                <protocol type="MERGE2"/>
-                <protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
-                <protocol type="FD"/>
-                <protocol type="VERIFY_SUSPECT"/>
-                <protocol type="BARRIER"/>
-                <protocol type="pbcast.NAKACK"/>
-                <protocol type="UNICAST2"/>
-                <protocol type="pbcast.STABLE"/>
-                <protocol type="pbcast.GMS"/>
-                <protocol type="UFC"/>
-                <protocol type="MFC"/>
-                <protocol type="FRAG2"/>
-                <protocol type="RSVP"/>
-            </stack>
+            <stacks>
+                <stack name="tcpping">
+                    <transport type="TCP" socket-binding="jgroups-tcp"/>
+                    <protocol type="TCPPING">
+                        <property name="initial_hosts">${env.KEYCLOAK_NODE_IPS}</property>
+                        <property name="port_range">${env.KEYCLOAK_INITIAL_MEMBERS}</property>
+                        <property name="timeout">3000</property>
+                        <property name="num_initial_members">2</property>
+                    </protocol>
+                    <protocol type="MERGE2"/>
+                    <protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
+                    <protocol type="FD"/>
+                    <protocol type="VERIFY_SUSPECT"/>
+                    <protocol type="BARRIER"/>
+                    <protocol type="pbcast.NAKACK"/>
+                    <protocol type="UNICAST2"/>
+                    <protocol type="pbcast.STABLE"/>
+                    <protocol type="pbcast.GMS"/>
+                    <protocol type="UFC"/>
+                    <protocol type="MFC"/>
+                    <protocol type="FRAG2"/>
+                    <protocol type="RSVP"/>
+                </stack>
+            </stacks>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jmx:1.3">
             <expose-resolved-model/>
